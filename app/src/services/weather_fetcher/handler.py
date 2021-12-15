@@ -27,7 +27,7 @@ def obtain_weather_for_city(city_name: str) -> list[dict[str, Union[int, float]]
 
 
 def obtain_weather_for_5_cities(
-    cities: Optional[list[str]] = None
+    cities: Optional[list[str]] = None,
 ) -> list[dict[str, Union[int, float, str]]]:
     if cities is None:
         cities = ["Dnipro", "Lviv", "Kyiv", "Odesa", "Kharkiv"]

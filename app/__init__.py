@@ -6,7 +6,6 @@ from app.src.services import weather_fetcher
 
 
 def init_db(app: Flask):
-    app.session = database.session_with_scope
     database.Base.metadata.create_all(bind=database.engine)
     return app
 

@@ -5,6 +5,5 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from app.configs import SQLALCHEMY_DATABASE_URI
 
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
-session = sessionmaker(engine)
 Base = declarative_base()
-session_with_scope = scoped_session(session)
+session = scoped_session(sessionmaker(engine))
