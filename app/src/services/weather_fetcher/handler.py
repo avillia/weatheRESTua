@@ -8,6 +8,14 @@ from app.src.services.weather_fetcher.marshall import forecast_fields
 
 
 def obtain_weather_for_city(city_name: str) -> list[dict[str, Union[int, float]]]:
+    """
+    For some reason they are not letting you to retrieve weather for
+    7 days via city name in free tier, but they left an opportunity
+    to fetch longitude and latitude by name. So i'm fetching lat and lon,
+    and then retrieve weather for them.
+    :param city_name:
+    :return: list of 7 marshalled dicts that include weather forecasts
+    """
     city_data = requests.get(
         "http://api.openweathermap.org/geo/1.0/direct",
         params={"q": city_name, "limit": 1, "appid": OPENWEATHERMAP_TOKEN},
