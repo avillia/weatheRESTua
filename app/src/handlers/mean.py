@@ -4,10 +4,12 @@ from pandas import DataFrame
 from sqlalchemy.orm import load_only
 
 from app.src.extensions.database import session
+from app.src.handlers.utils import check_if_city_exists
 from app.src.models import Forecast
 
 
 def form_required_dataframe(city_name: str, field: str) -> DataFrame:
+    check_if_city_exists(city_name)
     with session() as db:
         result: list[Forecast] = (
             db.query(Forecast).options(load_only(field)).filter_by(city=city_name).all()
