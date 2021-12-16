@@ -53,7 +53,7 @@ def test_records(test_env: Flask, start: str, end: str, city: str):
 @print_name_and_args
 def test_moving_mean(test_env: Flask, value_type: str, city: str):
     result = test_env.get(
-        "/mean", query_string={"value_type": value_type, "city": city}
+        "/moving_mean", query_string={"value_type": value_type, "city": city}
     )
     return result.json
 
@@ -67,7 +67,7 @@ def main():
         test_records(test_client, "12-07-2000", "21-12-2021", "Kharkiv")
         test_records(test_client, "2000-07-12", "2021-12-21", "Kharkiv")
         test_records(test_client, "2021-12-18", "2021-12-20", "Kharkiv")
-        test_moving_mean(test_client, "pressure", "Dnipro")
+        test_moving_mean(test_client, "pressure", "Lviv")
         test_moving_mean(test_client, "clouds", "Odesa")
 
 
