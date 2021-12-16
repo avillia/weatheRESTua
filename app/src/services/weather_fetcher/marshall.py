@@ -12,8 +12,15 @@ class Date(Raw):
 
 
 def calculate_mean_temp(temp_dict: dict[str, float]) -> float:
-    temp_dict.pop("min")
-    temp_dict.pop("max")
+    """
+    Need this as far as OpenWeatherMapAPI does not return mean
+    temperature by itself, so it's being calculated on our side.
+    :param temp_dict:
+    :return:
+    """
+    temp_dict = {
+        key: value for key, value in temp_dict.items() if key not in ("max", "min")
+    }
     return sum(temp_dict.values()) / len(temp_dict)
 
 
