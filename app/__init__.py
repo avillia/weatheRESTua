@@ -3,13 +3,14 @@ from flask_restful import Api
 
 from app.src.extensions import database
 from app.src.models import Forecast
-from app.src.namespaces import Cities, Mean, MovingMean, Records
+from app.src.namespaces import Cities, Mean, MovingMean, Records, Index
 from app.src.services import weather_fetcher
 
 
 def register_resources(app: Flask):
     api = Api()
 
+    api.add_resource(Index, "/")
     api.add_resource(Cities, "/cities")
     api.add_resource(Mean, "/mean")
     api.add_resource(MovingMean, "/moving_mean")
