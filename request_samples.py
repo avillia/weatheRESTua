@@ -2,6 +2,7 @@
 This module is created for testing purposes and should run as is.
 It creates testing client in main() and then passes it to each 'test',
 where the required requests are done."""
+
 from functools import wraps
 from json import dumps as json_dump
 from typing import Callable
@@ -20,9 +21,7 @@ def print_name_and_args(function: Callable):
     @wraps(function)
     def wrapper(*args, **kwargs):
         print(f"{function.__name__:=^80}")
-        print(
-            f"Arguments: {args[1:]}\n"
-        )  # skip first argument because it is FlaskClient
+        print(f"Arguments: {args[1:]}\n")  # first argument is FlaskClient; skip it
         print(json_dump(function(*args, **kwargs), indent=4))
 
     return wrapper
@@ -37,7 +36,11 @@ def test_cities(test_env: Flask):
 @print_name_and_args
 def test_mean(test_env: Flask, value_type: str, city: str):
     result = test_env.get(
-        "/mean", query_string={"value_type": value_type, "city": city}
+        "/mean",
+        query_string={
+            "value_type": value_type,
+            "city": city,
+        },
     )
     return result.json
 
@@ -45,7 +48,12 @@ def test_mean(test_env: Flask, value_type: str, city: str):
 @print_name_and_args
 def test_records(test_env: Flask, start: str, end: str, city: str):
     result = test_env.get(
-        "/records", query_string={"start_dt": start, "end_dt": end, "city": city}
+        "/records",
+        query_string={
+            "start_dt": start,
+            "end_dt": end,
+            "city": city,
+        },
     )
     return result.json
 
@@ -53,7 +61,11 @@ def test_records(test_env: Flask, start: str, end: str, city: str):
 @print_name_and_args
 def test_moving_mean(test_env: Flask, value_type: str, city: str):
     result = test_env.get(
-        "/moving_mean", query_string={"value_type": value_type, "city": city}
+        "/moving_mean",
+        query_string={
+            "value_type": value_type,
+            "city": city,
+        },
     )
     return result.json
 
