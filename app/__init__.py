@@ -1,29 +1,20 @@
-from flask import Flask
-from flask_restful import Api
+from fastapi import FastAPI
 
 from app.src.extensions import database
 from app.src.models import Forecast
-from app.src.namespaces import Cities, Mean, MovingMean, Records, Index
+from app.src.routes import routers
 from app.src.services import weather_fetcher
 
 
-def register_resources(app: Flask):
-    api = Api()
-
-    api.add_resource(Index, "/")
-    api.add_resource(Cities, "/cities")
-    api.add_resource(Mean, "/mean")
-    api.add_resource(MovingMean, "/moving_mean")
-    api.add_resource(Records, "/records")
-
-    api.init_app(app)
+def register_resources(app: FastAPI):
+    for router in routers:
+        app.include_router(router)
 
     return app
 
 
-def init_db(app: Flask):
+def init_db():
     database.Base.metadata.create_all(bind=database.engine)
-    return app
 
 
 def populate_db_if_empty():
@@ -34,10 +25,9 @@ def populate_db_if_empty():
             db.commit()
 
 
-def create_app(config_object="app.configs"):
-    app = Flask("weatheRESTua", static_folder="app/src/static")
-    app.config.from_object(config_object)
-    init_db(app)
+def create_app():
+    app = FastAPI()
+    init_db()
     populate_db_if_empty()
     register_resources(app)
 
