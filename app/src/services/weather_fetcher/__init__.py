@@ -1,1 +1,0 @@
-from .handler import obtain_weather_for_5_cities
