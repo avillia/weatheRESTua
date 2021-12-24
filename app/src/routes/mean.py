@@ -6,8 +6,8 @@ from pandas import DataFrame
 from sqlalchemy.orm import load_only
 
 from app.src.extensions.database import session
-from app.src.helpers.utils import check_if_city_exists
 from app.src.models import Forecast
+from app.src.routes.utils import check_if_city_exists
 
 
 def form_required_dataframe(city_name: str, field: str) -> DataFrame:

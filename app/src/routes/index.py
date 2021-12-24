@@ -3,7 +3,7 @@ from fastapi import APIRouter
 index = APIRouter()
 
 
-@index.get("/", tags=["index"])
+@index.get("/", tags=["index", "main"])
 def return_index():
     return {
         "status": "alive",

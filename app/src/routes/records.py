@@ -3,8 +3,8 @@ from datetime import date
 from fastapi import APIRouter
 
 from app.src.extensions.database import session
-from app.src.helpers.utils import check_if_city_exists
 from app.src.models import Forecast
+from app.src.routes.utils import check_if_city_exists
 
 records = APIRouter()
 
