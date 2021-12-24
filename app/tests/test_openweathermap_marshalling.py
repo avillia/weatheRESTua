@@ -3,34 +3,24 @@ from datetime import date
 from assertpy import assert_that
 from pytest_mock import MockerFixture
 
-from app.src.services.weather_fetcher.handler import obtain_weather_for_city
+from app.src.services.weather_fetcher import obtain_weather_for_city
 
 
 def test_correct_response_from_obtain_weather(mocker: MockerFixture):
-    geodirect_data = [
-        {
-            "lat": 40,
-            "lon": 40,
-        },
-    ]
+    geodirect_data = [{"lat": 40, "lon": 40}]
 
     onecall_data = {
         "daily": [
             {
                 "dt": 1639659212,
-                "temp": {
-                    "day": 280,
-                    "night": 270,
-                    "max": 296,
-                    "min": 269,
-                },
+                "temp": {"day": 280, "night": 270, "max": 296, "min": 269},
                 "pressure": 1000,
                 "humidity": 69,
                 "wind_speed": 4.0,
                 "clouds": 69,
                 "rain": 4.0,
-            },
-        ],
+            }
+        ]
     }
 
     mocked_geodirect = mocker.MagicMock()
@@ -55,4 +45,4 @@ def test_correct_response_from_obtain_weather(mocker: MockerFixture):
     result = obtain_weather_for_city("SomeCity")
 
     assert_that(result).is_type_of(list).is_not_empty()
-    assert_that(result[0]).is_equal_to(desired_response)
+    assert_that(result[0].dict()).is_equal_to(desired_response)
