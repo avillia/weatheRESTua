@@ -1,0 +1,40 @@
+GET http://localhost:8000/cities
+Accept: application/json
+
+###
+GET http://localhost:8000/mean?value_type=sun&city=Lviv
+Accept: application/json
+
+###
+GET http://localhost:8000/mean?value_type=pcp&city=Uzhgorod
+Accept: application/json
+
+###
+GET http://localhost:8000/mean?value_type=temp&city=Kyiv
+Accept: application/json
+
+###
+GET http://localhost:8000/mean?value_type=pcp&city=Dnipro
+Accept: application/json
+
+###
+GET http://localhost:8000/records?start_dt=12-07-2000&end_dt=21-12-2021&city=Kharkiv
+Accept: application/json
+
+###
+GET http://localhost:8000/records?start_dt=2000-07-12&end_dt=2021-12-21&city=Kharkiv
+Accept: application/json
+
+###
+GET http://localhost:8000/records?start_dt=2021-12-18&end_dt=2021-12-20&city=Kyiv
+Accept: application/json
+
+###
+GET http://localhost:8000/moving_mean?value_type=pressure&city=Lviv
+Accept: application/json
+
+###
+GET http://localhost:8000/moving_mean?value_type=clouds&city=Odesa&window=2
+Accept: application/json
+
+###
