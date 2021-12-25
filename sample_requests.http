@@ -22,11 +22,11 @@ GET http://localhost:8000/records?start_dt=12-07-2000&end_dt=21-12-2021&city=Kha
 Accept: application/json
 
 ###
-GET http://localhost:8000/records?start_dt=2000-07-12&end_dt=2021-12-21&city=Kharkiv
+GET http://localhost:8000/records?start_dt=2000-07-12&end_dt=2021-12-23&city=Kharkiv
 Accept: application/json
 
 ###
-GET http://localhost:8000/records?start_dt=2021-12-18&end_dt=2021-12-20&city=Kyiv
+GET http://localhost:8000/records?start_dt=2021-12-20&end_dt=2021-12-25&city=Kyiv
 Accept: application/json
 
 ###

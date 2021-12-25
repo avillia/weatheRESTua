@@ -1,8 +1,10 @@
 from enum import Enum
+from typing import Optional
 
 from fastapi import APIRouter
 from numpy import nan
 from pandas import DataFrame
+from pydantic import BaseModel
 from sqlalchemy.orm import load_only
 
 from app.src.extensions.database import session
@@ -38,22 +40,31 @@ class ValueType(str, Enum):
     wind_speed = "wind_speed"
 
 
-@means.get("/mean", tags=["mean"])
+class BaseMean(BaseModel):
+    city: str
+    value_type: ValueType
+
+
+class Mean(BaseMean):
+    mean: float
+
+
+class MovingMean(BaseMean):
+    window: int
+    mean: list[Optional[float]]
+
+
+@means.get("/mean", tags=["mean"], response_model=Mean)
 def mean_value_of_param_for_city(city: str, value_type: ValueType):
     dataframe = form_required_dataframe(city, value_type)
     mean = calculate_mean(dataframe)
-    return {"city": city, "value_type": value_type, "mean": mean}
+    return city, value_type, mean
 
 
-@means.get("/moving_mean", tags=["mean", "moving mean"])
+@means.get("/moving_mean", tags=["mean", "moving mean"], response_model=MovingMean)
 def moving_mean_value_of_param_for_city(
     city: str, value_type: ValueType, window: int = 2
 ):
     dataframe = form_required_dataframe(city, value_type)
     moving_mean = calculate_mean(dataframe, rolling=True, window=window)
-    return {
-        "city": city,
-        "value_type": value_type,
-        "window": window,
-        "moving_mean": moving_mean,
-    }
+    return city, value_type, window, moving_mean
