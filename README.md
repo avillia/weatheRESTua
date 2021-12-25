@@ -1,5 +1,5 @@
 # weatheRESTua
-Small RESTful API build on Flask to obtain basic weather info for UA cities.
+Small REST API build on FastAPI (wanted to try something new) to obtain basic weather info for UA cities.
 
 ## How to run?
 1. Create separate venv for project and install dependencies: `pip install -r requirements.txt`
