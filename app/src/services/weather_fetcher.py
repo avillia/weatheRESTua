@@ -1,5 +1,5 @@
 from datetime import date
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 import requests
 from pydantic import BaseModel
@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from app.configs import OPENWEATHERMAP_TOKEN
 
 
-class Forecast(BaseModel):
+class OpenWeatherMapForecast(BaseModel):
     date: date
     temp: float
     pcp: Optional[float]
@@ -30,7 +30,7 @@ def calculate_mean_temp(temp_dict: dict[str, float]) -> float:
     return sum(temp_dict.values()) / len(temp_dict)
 
 
-def obtain_weather_for_city(city_name: str) -> list[Forecast]:
+def obtain_weather_for_city(city_name: str) -> list[OpenWeatherMapForecast]:
     """
     For some reason they are not letting you retrieve weather for
     7 days via city name in free tier, but they left an opportunity
@@ -55,7 +55,7 @@ def obtain_weather_for_city(city_name: str) -> list[Forecast]:
     ).json()
 
     return [
-        Forecast(
+        OpenWeatherMapForecast(
             date=day.get("dt"),
             temp=calculate_mean_temp(day.get("temp")),
             pcp=day.get("rain"),
