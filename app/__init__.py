@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.src.extensions import database
-from app.src.models import Forecast
+from app.src.managers import ForecastManager
 from app.src.routes import routers
 from app.src.services import weather_fetcher
 
@@ -18,11 +18,9 @@ def init_db() -> None:
 
 
 def populate_db_if_empty() -> None:
-    with database.session() as db:
-        if not db.query(Forecast).all():
-            for data in weather_fetcher.obtain_weather_for_5_cities():
-                db.add(Forecast(**data))
-            db.commit()
+    if not ForecastManager.check_existence_of_forecasts():
+        data = weather_fetcher.obtain_weather_for_5_cities()
+        ForecastManager.create_multiple_from_list(data)
 
 
 def create_app() -> FastAPI:

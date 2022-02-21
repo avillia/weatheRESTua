@@ -5,19 +5,13 @@ from fastapi import APIRouter
 from numpy import nan
 from pandas import DataFrame
 from pydantic import BaseModel
-from sqlalchemy.orm import load_only
 
-from app.src.extensions.database import session
-from app.src.models import Forecast
-from app.src.routes.utils import check_if_city_exists
+from app.src.managers import ForecastManager
+from app.src.routes.utils import throw_error_if_no_such_city_in_db
 
 
 def form_required_dataframe(city_name: str, field: str) -> DataFrame:
-    check_if_city_exists(city_name)
-    with session() as db:
-        result: list[Forecast] = (
-            db.query(Forecast).options(load_only(field)).filter_by(city=city_name).all()
-        )
+    result = ForecastManager.obtain_data_for_dataframe(city_name, field)
     return DataFrame(elem.as_dataframe_row(field) for elem in result)
 
 
@@ -56,15 +50,19 @@ class MovingMean(BaseMean):
 
 @means.get("/mean", tags=["mean"], response_model=Mean)
 def mean_value_of_param_for_city(city: str, value_type: ValueType):
+    throw_error_if_no_such_city_in_db(city)
     dataframe = form_required_dataframe(city, value_type)
     mean = calculate_mean(dataframe)
-    return city, value_type, mean
+    return Mean(city=city, value_type=value_type, mean=mean)
 
 
 @means.get("/moving_mean", tags=["mean", "moving mean"], response_model=MovingMean)
 def moving_mean_value_of_param_for_city(
     city: str, value_type: ValueType, window: int = 2
 ):
+    throw_error_if_no_such_city_in_db(city)
     dataframe = form_required_dataframe(city, value_type)
     moving_mean = calculate_mean(dataframe, rolling=True, window=window)
-    return city, value_type, window, moving_mean
+    return MovingMean(
+        city=city, value_type=value_type, window=window, moving_mean=moving_mean
+    )
