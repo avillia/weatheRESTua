@@ -3,11 +3,29 @@ from datetime import date
 from sqlalchemy.orm import load_only
 
 from app.src.extensions.database import session
-from app.src.managers.base import BaseManager
+from app.src.managers.base import SQLAlchemyBaseManager
 from app.src.models import Forecast
 
 
-class ForecastManager(BaseManager):
+class BaseForecastManager:
+    """Interface for ForecastManagers. Only to be inherited from."""
+
+    @classmethod
+    def check_existence_of_forecasts(cls) -> bool:
+        raise NotImplemented
+
+    @classmethod
+    def obtain_data_for_dataframe(cls, city_name: str, field: str) -> list[Forecast]:
+        raise NotImplemented
+
+    @classmethod
+    def obtain_records_for_time_period(
+        cls, start_dt: date, end_dt: date, city: str
+    ) -> list[Forecast]:
+        raise NotImplemented
+
+
+class SQLAlchemyForecastManager(SQLAlchemyBaseManager, BaseForecastManager):
     model = Forecast
 
     @classmethod

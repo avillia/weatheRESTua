@@ -1,7 +1,17 @@
+from typing import Any
+
 from app.src.extensions.database import Base, session
 
 
-class BaseManager:
+class _BaseManager:
+    """Interface for all managers. Only to be inherited from."""
+
+    @classmethod
+    def create(cls, **kwargs) -> Any:
+        raise NotImplemented
+
+
+class SQLAlchemyBaseManager(_BaseManager):
     model: Base
 
     @classmethod

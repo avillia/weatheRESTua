@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 
-from app.src.managers import CityManager
+from app.src.managers import SQLAlchemyCityManager as CityManager
 
 
 def throw_error_if_no_such_city_in_db(city_name: str):

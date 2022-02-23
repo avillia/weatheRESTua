@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from app.src.managers import CityManager
+from app.src.managers import SQLAlchemyCityManager as CityManager
 
 
 class Cities(BaseModel):

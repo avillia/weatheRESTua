@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from app import ForecastManager
+from app.src.managers import SQLAlchemyForecastManager as ForecastManager
 from app.src.routes.utils import throw_error_if_no_such_city_in_db
 
 records = APIRouter()
