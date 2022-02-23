@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.src.extensions import database
-from app.src.managers import ForecastManager
+from app.src.managers import SQLAlchemyForecastManager as ForecastManager
 from app.src.routes import routers
 from app.src.services import weather_fetcher
 

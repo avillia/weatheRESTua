@@ -1,2 +1,2 @@
-from .city import CityManager
-from .forecast import ForecastManager
+from .city import SQLAlchemyCityManager
+from .forecast import SQLAlchemyForecastManager
